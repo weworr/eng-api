@@ -3,10 +3,15 @@ FROM php:8.2-apache
 RUN a2enmod rewrite
 
 RUN apt-get update \
+  && apt-get install -y libcurl4-openssl-dev pkg-config libssl-dev \
   && apt-get install -y libzip-dev git wget --no-install-recommends \
   && apt-get clean \
   && apt-get install -y ssl-cert \
-  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+  && pecl install mongodb \
+  && pecl config-set php_ini /etc/php.ini
+
+RUN echo "extension=mongodb.so" >> /usr/local/etc/php/conf.d/mongodb.ini
 
 RUN a2enmod ssl
 
