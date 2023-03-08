@@ -29,7 +29,7 @@ class MeasurementController extends AbstractController
         return new JsonResponse($serializer->serialize($measurementService->getAll(), 'json'), json: true);
     }
 
-    #[Route('addMeasurements', methods: ['POST', 'PUT'])]
+    #[Route('addMeasurements', methods: ['PUT'])]
     public function addMeasurements(
         Request $request,
         MeasurementService $measurementService,
