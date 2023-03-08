@@ -12,3 +12,10 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+
+    Symfony\Component\Serializer\Normalizer\ObjectNormalizer: ~
+
+    Symfony\Component\Serializer\Serializer:
+        arguments:
+            - [ '@Symfony\Component\Serializer\Normalizer\ObjectNormalizer' ]
+            - [ '@serializer.encoder.json' ]

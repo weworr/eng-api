@@ -4,7 +4,7 @@
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.0",
+        "php": ">=8.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "doctrine/mongodb-odm-bundle": "^4.5",
@@ -12,7 +12,9 @@
         "symfony/dotenv": "5.4.*",
         "symfony/flex": "^1.17|^2",
         "symfony/framework-bundle": "5.4.*",
+        "symfony/property-access": "5.4.*",
         "symfony/runtime": "5.4.*",
+        "symfony/serializer": "5.4.*",
         "symfony/yaml": "5.4.*"
     },
     "config": {
