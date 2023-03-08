@@ -2,9 +2,7 @@
 
 namespace App\Controller;
 
-use App\Document\Measurement;
 use App\Service\MeasurementService;
-use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,22 +21,22 @@ class MeasurementController extends AbstractController
     }
 
     #[Route('/getMeasurements', methods: ['GET'])]
-    public function getMeasurements(MeasurementService $measurementService, SerializerInterface $serializer): JsonResponse
+    public function getMeasurements(
+        MeasurementService $measurementService,
+        SerializerInterface $serializer
+    ): JsonResponse
     {
         return new JsonResponse($serializer->serialize($measurementService->getAll(), 'json'), json: true);
     }
 
     #[Route('addMeasurements', methods: ['POST', 'PUT'])]
-    public function addMeasurements(Request $request, DocumentManager $dm, SerializerInterface $serializer): JsonResponse
+    public function addMeasurements(
+        Request $request,
+        MeasurementService $measurementService,
+        SerializerInterface $serializer
+    ): JsonResponse
     {
-        $measurement = new Measurement();
-
-        $measurement
-            ->setTemperature(1.4)
-            ->setHumidity(45);
-
-        $dm->persist($measurement);
-        $dm->flush();
+        $measurement = $measurementService->addMeasurement($request->request->all());
 
         return new JsonResponse(
             $serializer->serialize(['measurement' => $measurement], 'json'),

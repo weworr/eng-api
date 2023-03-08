@@ -12,4 +12,10 @@ class MeasurementRepository extends ServiceDocumentRepository
     {
         parent::__construct($dm, Measurement::class);
     }
+
+    public function add(Measurement $measurement)
+    {
+        $this->dm->persist($measurement);
+        $this->dm->flush();
+    }
 }
