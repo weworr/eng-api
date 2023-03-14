@@ -17,16 +17,22 @@ class MeasurementType extends AbstractType
                 'constraints' => [
                     new Assert\NotBlank(),
                     new Assert\PositiveOrZero(),
-                ]
+                ],
+                'invalid_message' => 'Value should be a number',
             ])
             ->add('humidity', NumberType::class, [
                 'constraints' => [
                     new Assert\GreaterThanOrEqual(0),
                     new Assert\LessThanOrEqual(100),
-                ]
+                ],
+                'invalid_message' => 'Value should be a number',
             ])
-            ->add('pressure', NumberType::class)
-            ->add('voc', NumberType::class);
+            ->add('pressure', NumberType::class, [
+                'invalid_message' => 'Value should be a number',
+            ])
+            ->add('voc', NumberType::class, [
+                'invalid_message' => 'Value should be a number',
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

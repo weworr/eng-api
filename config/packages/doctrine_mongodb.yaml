@@ -14,3 +14,5 @@ doctrine_mongodb:
           prefix: 'App\Document'
           alias: App
           type: attribute
+
+  auto_generate_proxy_classes:  false

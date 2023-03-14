@@ -12,7 +12,8 @@ readonly class MeasurementService
 {
     public function __construct(
         private MeasurementRepository $measurementRepository,
-        private FormFactoryInterface  $formFactory
+        private FormFactoryInterface  $formFactory,
+        private ErrorService $errorService
     )
     {
     }
@@ -29,11 +30,11 @@ readonly class MeasurementService
 
         $form->submit($data);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isValid()) {
             $this->measurementRepository->add($measurement);
             return $measurement;
         }
 
-        throw new InvalidFormData('Invalid form data');
+        throw new InvalidFormData(json_encode($this->errorService->getFormErrors($form)));
     }
 }
