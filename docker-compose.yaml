@@ -3,10 +3,23 @@ version: '3.7'
 services:
   engapi.localhost:
     build: .
-    image: engapi.localhost
     container_name: engapi.localhost
     restart: always
     ports:
       - '443:443'
     volumes:
       - ./:/var/www/html
+    depends_on:
+      - 'mongodb'
+
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGODB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGODB_ROOT_PASSWORD}
+    restart: unless-stopped
+    ports:
+      - '27017:27017'
+    volumes:
+      - ./docker/database/mongodb:/data/db
