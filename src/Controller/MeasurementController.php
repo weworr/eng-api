@@ -14,16 +14,30 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/measurement', name: 'measurements_')]
 class MeasurementController extends AbstractController
 {
-    #[Route('/add', name: 'add', methods: ['PUT'])]
-    public function add(
-        Request $request,
-        MeasurementService $measurementService
+    public function __construct(
+        private readonly MeasurementService $measurementService
+    )
+    {
+    }
+
+    #[Route('/get', name: 'get', methods: ['GET'])]
+    public function getMeasurements(
+        Request $request
     ): JsonResponse
     {
         return $this->json([
-            $measurementService->create($request->request->all()),
-            ],
-        Response::HTTP_CREATED
+            $this->measurementService->get($request->request->all())
+        ]);
+    }
+
+    #[Route('/add', name: 'add', methods: ['PUT'])]
+    public function add(
+        Request $request
+    ): JsonResponse
+    {
+        return $this->json(
+            $this->measurementService->create($request->request->all()),
+            Response::HTTP_CREATED
         );
     }
 }

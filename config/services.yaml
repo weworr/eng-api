@@ -1,4 +1,5 @@
 parameters:
+    form.allow_extra_fields: false
 
 services:
     _defaults:
@@ -12,10 +13,16 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    App\EventListener\ExceptionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
+
     App\EventListener\RequestListener:
         tags:
             - { name: kernel.event_listener, event: kernel.request }
 
-    App\EventListener\ExceptionListener:
-        tags:
-            - { name: kernel.event_listener, event: kernel.exception }
+    Doctrine\Persistence\ManagerRegistry: '@Doctrine\Bundle\MongoDBBundle\ManagerRegistry'
+
+    Symfony\Component\Form\Extension\Core\CoreExtension:
+        arguments:
+            - '%form.allow_extra_fields%'
