@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class MeasurementController extends AbstractController
 {
     #[Route('/add', name: 'add', methods: ['PUT'])]
-    public function index(
+    public function add(
         Request $request,
         MeasurementService $measurementService
     ): JsonResponse

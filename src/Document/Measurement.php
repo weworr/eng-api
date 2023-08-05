@@ -27,21 +27,6 @@ class Measurement
     #[MongoDB\Field(type: 'float')]
     private float $voc;
 
-    public function __construct(
-        float $timestamp,
-        float $temperature,
-        float $humidity,
-        float $pressure,
-        float $voc
-    )
-    {
-        $this->timestamp = $timestamp;
-        $this->temperature = $temperature;
-        $this->humidity = $humidity;
-        $this->pressure = $pressure;
-        $this->voc = $voc;
-    }
-
     public function getId(): string
     {
         return $this->id;
