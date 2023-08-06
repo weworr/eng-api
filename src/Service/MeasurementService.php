@@ -50,7 +50,6 @@ readonly class MeasurementService
             return $measurement;
         }
 
-
         throw new InvalidFormData($this->errorService->getFormErrors($form));
     }
 }

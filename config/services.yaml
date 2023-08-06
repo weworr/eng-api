@@ -26,3 +26,7 @@ services:
     Symfony\Component\Form\Extension\Core\CoreExtension:
         arguments:
             - '%form.allow_extra_fields%'
+
+    Symfony\Component\Notifier\Transport\Discord\DiscordTransport:
+        arguments:
+            - 'https://discord.com/api/webhooks/1137740054396158015/w98wlCthFFeFWX1MtIR-VwLvWHKqE3nACX1-lO8DoYCnHv8neVP4eVy410VoNhd5TCEP'

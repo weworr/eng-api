@@ -11,6 +11,6 @@ class JsonException extends Exception
 {
     public function __construct(array $message = [], int $code = 0, ?Throwable $previous = null)
     {
-        parent::__construct(json_encode($message), $code, $previous);
+        parent::__construct(json_encode($message, JSON_PRETTY_PRINT), $code, $previous);
     }
 }
