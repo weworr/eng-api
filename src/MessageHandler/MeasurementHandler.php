@@ -22,9 +22,13 @@ class MeasurementHandler implements MessageHandlerInterface
 
     public function __invoke(MeasurementMessage $measurementMessage): void
     {
+        $content = json_decode($measurementMessage->getContent(), true);
+
         try {
             $this->measurementService->create(
-                json_decode($measurementMessage->getContent(), true)
+                !empty($content['content']) ?
+                    json_decode($content['content'], true) :
+                    $content
             );
         } catch (Throwable $exception) {
             $this->chatter->send(

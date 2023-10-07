@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Document\Measurement;
+use App\Exception\InvalidFormData;
 use App\Message\MeasurementMessage;
+use App\Service\ErrorService;
 use App\Service\MeasurementService;
+use App\Type\MeasurementType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,29 +31,31 @@ class MeasurementController extends AbstractController
         Request $request
     ): JsonResponse
     {
-        return $this->json([
+        return $this->json(
             $this->measurementService->get($request->request->all())
-        ]);
+        );
     }
 
     #[Route('/add', name: 'add', methods: ['PUT'])]
     public function add(
-        Request $request
+        Request $request,
+        MessageBusInterface $bus,
+        ErrorService $errorService
     ): JsonResponse
     {
-        return $this->json(
-            $this->measurementService->create($request->request->all()),
-            Response::HTTP_CREATED
-        );
-    }
+        $measurement = new Measurement();
+        $form = $this->createForm(MeasurementType::class, $measurement);
+        $form->submit($request->request->all());
 
-    #[Route('/test')]
-    public function test(
-        MessageBusInterface $bus
-    ): JsonResponse
-    {
-        $bus->dispatch(new MeasurementMessage('lol'));
+        if ($form->isSubmitted() && $form->isValid()) {
+            $bus->dispatch(new MeasurementMessage($request->getContent()));
 
-        return $this->json('xdd');
+            return $this->json(
+                [],
+                Response::HTTP_ACCEPTED
+            );
+        }
+
+        throw new InvalidFormData($errorService->getFormErrors($form));
     }
 }

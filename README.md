@@ -10,7 +10,10 @@ but it was doing in free time for fun and for learning RabbitMQ and symfony/mess
 ```shell
 docker-compose up -d
 ```
-
+3. If you want to enable symfony messenger consume run
+```shell
+docker-compose exec php bin/console messenger:consume
+```
 ## Dependencies:
 1. PHP 8.2
 2. MongoDB 6.0.8

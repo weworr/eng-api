@@ -1,17 +1,29 @@
 version: '3.7'
 
 services:
-  engapi.localhost:
-    build: .
-    container_name: engapi.localhost
-    restart: always
+  eng_api_nginx:
+    build: ./docker/nginx
     ports:
-      - '443:443'
+      - '80:80'
+    volumes:
+      - ./:/var/www/html
+      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - 'php'
+    networks:
+      - 'external_network'
+      - 'internal'
+
+  php:
+    build: ./docker/php
+    restart: on-failure
     volumes:
       - ./:/var/www/html
     depends_on:
       - 'mongodb'
       - 'rabbitmq'
+    networks:
+      - 'internal'
 
   mongodb:
     image: mongo
@@ -24,6 +36,8 @@ services:
       - '27017:27017'
     volumes:
       - ./docker/database/mongodb:/data/db
+    networks:
+      - 'internal'
 
   rabbitmq:
     image: rabbitmq:management
@@ -36,3 +50,11 @@ services:
       - '15672:15672'
     depends_on:
       - 'mongodb'
+    networks:
+      - 'internal'
+
+networks:
+  internal:
+    driver: bridge
+  external_network:
+    name: eng_api_external_network

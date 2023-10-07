@@ -21,7 +21,15 @@ class MeasurementRepository extends ServiceDocumentRepository
         $qb = $this->createQueryBuilder()
             ->sort('timestamp', 'DESC');
 
-        if ($query->getLast()) {
+        if (null !== $query->getMeasurementType()) {
+            $qb->select('timestamp', $query->getMeasurementType()->value);
+        }
+
+        if (null !== $query->getFrom()) {
+            $qb->field('timestamp')->gte($query->getFrom());
+        }
+
+        if (null !== $query->getLast()) {
             $qb->limit($query->getLast());
         }
 

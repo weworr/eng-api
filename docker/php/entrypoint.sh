@@ -1,6 +1,6 @@
-#! /bin/bash
+#! /bin/sh
 
 composer install
 chmod -R 777 *
 
-apache2-foreground
+exec "$@"
