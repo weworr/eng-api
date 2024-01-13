@@ -42,4 +42,4 @@ WORKDIR /var/www/html
 
 RUN chmod -R 777 *
 
-ENTRYPOINT /usr/bin/supervisord -c /etc/supervisor/supervisor.conf
+ENTRYPOINT ["docker/php/entrypoint.sh"]
