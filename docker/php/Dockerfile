@@ -1,8 +1,11 @@
 FROM php:8.2-fpm-alpine
 
+COPY cronjobs.txt /etc/crontabs/root
+
 RUN apk update \
   && apk upgrade \
   && apk add --no-cache \
+    supervisor \
     libzip-dev  \
     git  \
     wget  \
@@ -31,6 +34,7 @@ RUN composer self-update
 
 COPY ../../ /var/www/html/
 COPY entrypoint.sh docker/php/entrypoint.sh
+COPY supervisor.conf /etc/supervisor/supervisor.conf
 
 RUN chmod +x docker/php/entrypoint.sh
 
@@ -38,6 +42,4 @@ WORKDIR /var/www/html
 
 RUN chmod -R 777 *
 
-#RUN /usr/bin/composer install --no-interaction
-
-#ENTRYPOINT ["docker/php/entrypoint.sh"]
+ENTRYPOINT /usr/bin/supervisord -c /etc/supervisor/supervisor.conf

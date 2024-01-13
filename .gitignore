@@ -10,3 +10,5 @@
 /vendor/
 ###< symfony/framework-bundle ###
 /docker/database/
+supervisord.log
+supervisord.pid

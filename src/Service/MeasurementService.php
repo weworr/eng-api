@@ -41,20 +41,20 @@ readonly class MeasurementService
                 switch ($query->getMeasurementType()) {
                     case MeasurementTypeEnum::Temperature:
                         $this->measurementBuilder->buildTemperatureCollection($measurement);
-
                         break;
+
                     case MeasurementTypeEnum::Humidity:
                         $this->measurementBuilder->buildHumidityCollection($measurement);
-
                         break;
+
                     case MeasurementTypeEnum::Pressure:
                         $this->measurementBuilder->buildPressureCollection($measurement);
-
                         break;
+
                     case MeasurementTypeEnum::Voc:
                         $this->measurementBuilder->buildVocCollection($measurement);
-
                         break;
+
                     default:
                         $this->measurementBuilder
                             ->buildTemperatureCollection($measurement)
